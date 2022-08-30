@@ -8,14 +8,13 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication,
-    QMetaObject, QObject, QRect, Qt)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QObject, QRect, Qt)
 from PySide6.QtGui import (QCursor, QIntValidator, QAction)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGroupBox, QLineEdit,
     QMainWindow, QPlainTextEdit, QPushButton,QStatusBar, QWidget, QMessageBox, QMenu, QMenuBar, QFileDialog)
 from datetime import datetime
-import os,serial.tools.list_ports
-import src
+import os, serial.tools.list_ports, src
+
 
 
 class Ui_MainWindow(QMainWindow, QObject):
