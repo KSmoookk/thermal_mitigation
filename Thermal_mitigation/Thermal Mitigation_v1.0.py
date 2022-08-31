@@ -7,7 +7,7 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-#tsetesttestt
+#tsetesttestt 2test
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QObject, QRect, Qt)
 from PySide6.QtGui import (QCursor, QIntValidator, QAction)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGroupBox, QLineEdit,
