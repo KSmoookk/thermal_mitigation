@@ -78,12 +78,6 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.status.setStyleSheet(u"color: black; background-color:rgb(86, 86, 86); border: 0px")
         self.status.setReadOnly(True)
 
-        self.Setlpm_Terminal = QPlainTextEdit(self.centralwidget)
-        self.Setlpm_Terminal.setObjectName("Setlpm_Terminal")
-        self.Setlpm_Terminal.setGeometry(QRect(8, 110, 330, 620))
-        self.Setlpm_Terminal.viewport().setProperty("cursor", QCursor(Qt.IBeamCursor))
-        self.Setlpm_Terminal.setStyleSheet('QPlainTextEdit#Setlpm_Terminal {background-color : black; color : white}')
-        self.Setlpm_Terminal.setReadOnly(True)
         
         self.GetTMU_Terminal = QPlainTextEdit(self.centralwidget)
         self.GetTMU_Terminal.setObjectName("GetTMU_Terminal")
@@ -91,7 +85,123 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.GetTMU_Terminal.viewport().setProperty("cursor", QCursor(Qt.IBeamCursor))
         self.GetTMU_Terminal.setStyleSheet('QPlainTextEdit#GetTMU_Terminal {background-color : black; color : white}')
         self.GetTMU_Terminal.setReadOnly(True)
+
+        combobox_cnt = 1
         
+        
+        # for combobox_cnt in range(1,6):
+        #     #"self.level{} = QComboBox(self.centralwidget)".format(combobox_cnt)
+        #      #_widget = QComboBox(self.centralwidget)
+        #      globals()["level{}".format(combobox_cnt)] = QComboBox(self.centralwidget)
+        
+        # print(level1)
+        #     # for self.temp in range(0,16):
+        #     #     "self.level{}.addItem("")".format(self.temp)
+        #     # globals()["self.level{}".format(combobox_cnt)]
+            
+        #     # 'self.level{}.setObjectName(u"cooling_level1")'.format(combobox_cnt)
+        #     # 'self.level{}.setGeometry(QRect(10, {}80, 60,30))'.format(combobox_cnt, combobox_cnt)
+        #     # 'self.level{}.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")'.format(combobox_cnt)
+            
+        
+        self.level2 = QComboBox(self.centralwidget)     
+        for temp2 in range (0,7):
+            self.level2.addItem("")
+        self.level2.setObjectName(u"cooling_level1")
+        self.level2.setGeometry(QRect(10, 180, 60,30))
+        self.level2.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        
+        self.level2_cause = QComboBox(self.centralwidget)
+        for self.level2_cause_line in range(0,6):
+            self.level2_cause.addItem("")
+        self.level2_cause.setGeometry(QRect(75, 180, 60,30))
+        self.level2_cause.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level2_description = QLineEdit(self.centralwidget)
+        self.level2_description.setGeometry(QRect(140, 180, 120,30))
+        self.level2_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level2_btn = QPushButton(self.centralwidget)
+        self.level2_btn.setGeometry(QRect(270, 180, 60, 30))
+        self.level2_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        
+        
+        
+        self.level3 = QComboBox(self.centralwidget)      
+        for temp3 in range (0,6):
+            self.level3.addItem("")
+        self.level3.setObjectName(u"cooling_level1")
+        self.level3.setGeometry(QRect(10, 280, 60,30))
+        self.level3.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level3_cause = QComboBox(self.centralwidget)
+        for self.level3_cause_line in range(0,6):
+            self.level3_cause.addItem("")
+        self.level3_cause.setGeometry(QRect(75, 280, 60,30))
+        self.level3_cause.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level3_description = QLineEdit(self.centralwidget)
+        self.level3_description.setGeometry(QRect(140, 280, 120,30))
+        self.level3_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level3_btn = QPushButton(self.centralwidget)
+        self.level3_btn.setGeometry(QRect(270, 280, 60, 30))
+        self.level3_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        
+        
+        self.level4 = QComboBox(self.centralwidget)
+        for temp4 in range (0,16):
+            self.level4.addItem("")
+        self.level4.setObjectName(u"cooling_level1")
+        self.level4.setGeometry(QRect(10, 380, 60,30))
+        self.level4.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level4_cause = QComboBox(self.centralwidget)
+        for self.level4_cause_line in range(0,6):
+            self.level4_cause.addItem("")
+        self.level4_cause.setGeometry(QRect(75, 380, 60,30))
+        self.level4_cause.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level4_description = QLineEdit(self.centralwidget)
+        self.level4_description.setGeometry(QRect(140, 380, 120,30))
+        self.level4_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level4_btn = QPushButton(self.centralwidget)
+        self.level4_btn.setGeometry(QRect(270, 380, 60, 30))
+        self.level4_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        
+        
+        self.level5 = QComboBox(self.centralwidget)
+        for temp5 in range (0,2):
+            self.level5.addItem("")
+        self.level5.setObjectName(u"cooling_level1")
+        self.level5.setGeometry(QRect(10, 480, 60,30))
+        self.level5.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level5_cause = QComboBox(self.centralwidget)
+        for self.level5_cause_line in range(0,6):
+            self.level5_cause.addItem("")
+        self.level5_cause.setGeometry(QRect(75, 480, 60,30))
+        self.level5_cause.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level5_description = QLineEdit(self.centralwidget)
+        self.level5_description.setGeometry(QRect(140, 480, 120,30))
+        self.level5_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        self.level5_btn = QPushButton(self.centralwidget)
+        self.level5_btn.setGeometry(QRect(270, 480, 60, 30))
+        self.level5_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        
+        
+        
+        
+        # self.level5 = QComboBox(self.centralwidget)
+        # for self.init_temp in range (0,1):
+        #     self.level5.addItem("")
+        # self.level5.setObjectName(u"cooling_level1")
+        # self.level5.setGeometry(QRect(10, 580, 60,30))
+        # self.level5.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        # self.level5_cause = QLineEdit(self.centralwidget)
+        # self.level5_cause.setGeometry(QRect(75, 580, 60,30))
+        # self.level5_cause.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        # self.level5_description = QLineEdit(self.centralwidget)
+        # self.level5_description.setGeometry(QRect(140, 580, 120,30))
+        # self.level5_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+        # self.level5_btn = QPushButton(self.centralwidget)
+        # self.level5_btn.setGeometry(QRect(270, 580, 60, 30))
+        # self.level5_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
+
+
+
         
         self.MCG_SCG = QGroupBox(self.centralwidget)
         self.MCG_SCG.setObjectName(u"MCG_SCG")
@@ -248,7 +358,7 @@ class Ui_MainWindow(QMainWindow, QObject):
 
         self.TempCtrl_Group.raise_()
         self.MCG_SCG.raise_()
-        self.Setlpm_Terminal.raise_()
+        #self.GetTMU_Terminal.raise_()
         self.GetTMU_Terminal.raise_()
         self.Cause_Group.raise_()
         self.send_button.raise_()
@@ -264,6 +374,8 @@ class Ui_MainWindow(QMainWindow, QObject):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Thermal Mitigation Tool v1.0", None))
+        
+        ###Top 레이아웃 버튼
         self.MCG_SCG.setTitle(QCoreApplication.translate("MainWindow", u"MCG_SCG", None))
         self.MCG.setText(QCoreApplication.translate("MainWindow", u"MCG(0)", None))
         self.SCG.setText(QCoreApplication.translate("MainWindow", u"SCG(1)", None))
@@ -282,9 +394,9 @@ class Ui_MainWindow(QMainWindow, QObject):
             self.ports_select.setItemText(0, QCoreApplication.translate("MainWindow", u"Port", None))
             for line in range(len(self.avaliable_ports)):
                 self.ports_select.setItemText(line+1, QCoreApplication.translate("mainWindow", u"%s" %self.avaliable_ports[line], None))
-
         
-        self.pwr_control.setItemText(0, QCoreApplication.translate("MainWindow", u"--Pwr Saving--", None))
+                self.pwr_control.setItemText(0, QCoreApplication.translate("MainWindow", u"--Pwr Saving--", None))
+                
         self.pwr_control.setItemText(1, QCoreApplication.translate("MainWindow", u"0x02", None))
         self.pwr_control.setItemText(2, QCoreApplication.translate("MainWindow", u"0x04", None))
         self.pwr_control.setItemText(3, QCoreApplication.translate("MainWindow", u"0x08", None))
@@ -292,6 +404,11 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.pwr_control.setItemText(5, QCoreApplication.translate("MainWindow", u"0x20", None))
 
         self.send_button.setText(QCoreApplication.translate("MainWindow", u"Send", None))
+        self.level2_btn.setText(QCoreApplication.translate("MainWindow", u"Send", None))
+        self.level3_btn.setText(QCoreApplication.translate("MainWindow", u"Send", None))
+        self.level4_btn.setText(QCoreApplication.translate("MainWindow", u"Send", None))
+        self.level5_btn.setText(QCoreApplication.translate("MainWindow", u"Send", None))
+        
         self.TMU_button.setText(QCoreApplication.translate("MainWindow", u"TMU Read", None))
         self.AT_command.setTitle(QCoreApplication.translate("MainWindow", u"AT Command", None))
         self.AT_select.setItemText(0, QCoreApplication.translate("MainWindow", u"----AT Select----", None))
@@ -301,6 +418,58 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.Create_log_file.setText(QCoreApplication.translate("MainWindow", u"New", None))
         self.Open_log_file.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.Save_log_file.setText(QCoreApplication.translate("Mainwindow", u'Save', None))
+
+        
+        ##수동 Policy 생성 layout        
+        self.level2.setItemText(0, QCoreApplication.translate("MainWindow", u"Temp",None))
+        self.level3.setItemText(0, QCoreApplication.translate("MainWindow", u"Temp",None))
+        self.level4.setItemText(0, QCoreApplication.translate("MainWindow", u"Temp",None))
+        self.level5.setItemText(0, QCoreApplication.translate("MainWindow", u"Temp",None))
+  
+        
+        for level2_lineCnt in range(1,7):
+           
+            self.level2.setItemText(level2_lineCnt, QCoreApplication.translate("MainWindow", u"%d" %(95+level2_lineCnt), None))
+            
+        for level3_lineCnt in range(1,6):
+           
+            self.level3.setItemText(level3_lineCnt, QCoreApplication.translate("MainWindow", u"%d" %(101+level3_lineCnt), None))
+            
+        for level4_lineCnt in range(1,22):
+           
+            self.level4.setItemText(level4_lineCnt, QCoreApplication.translate("MainWindow", u"%d" %(106+level4_lineCnt), None))
+
+        for level5_lineCnt in range(1,2):
+           
+            self.level5.setItemText(level5_lineCnt, QCoreApplication.translate("MainWindow", u"%s" %'Reboot', None))
+            
+            self.level2_cause.setItemText(0, QCoreApplication.translate("MainWindow", u"%s" %"cause", None))
+            self.level2_cause.setItemText(1, QCoreApplication.translate("MainWindow", u"%d" %(0), None))
+            self.level2_cause.setItemText(2, QCoreApplication.translate("MainWindow", u"%d" %(1), None))
+            self.level2_cause.setItemText(3, QCoreApplication.translate("MainWindow", u"%d" %(64), None))
+            self.level2_cause.setItemText(4, QCoreApplication.translate("MainWindow", u"%d" %(128), None))
+            self.level2_cause.setItemText(5, QCoreApplication.translate("MainWindow", u"%d" %(256), None))
+            self.level3_cause.setItemText(0, QCoreApplication.translate("MainWindow", u"%s" %"cause", None))
+            self.level3_cause.setItemText(1, QCoreApplication.translate("MainWindow", u"%d" %(0), None))
+            self.level3_cause.setItemText(2, QCoreApplication.translate("MainWindow", u"%d" %(1), None))
+            self.level3_cause.setItemText(3, QCoreApplication.translate("MainWindow", u"%d" %(64), None))
+            self.level3_cause.setItemText(4, QCoreApplication.translate("MainWindow", u"%d" %(128), None))
+            self.level3_cause.setItemText(5, QCoreApplication.translate("MainWindow", u"%d" %(256), None))
+            self.level4_cause.setItemText(0, QCoreApplication.translate("MainWindow", u"%s" %"cause", None))
+            self.level4_cause.setItemText(1, QCoreApplication.translate("MainWindow", u"%d" %(0), None))
+            self.level4_cause.setItemText(2, QCoreApplication.translate("MainWindow", u"%d" %(1), None))
+            self.level4_cause.setItemText(3, QCoreApplication.translate("MainWindow", u"%d" %(64), None))
+            self.level4_cause.setItemText(4, QCoreApplication.translate("MainWindow", u"%d" %(128), None))
+            self.level4_cause.setItemText(5, QCoreApplication.translate("MainWindow", u"%d" %(256), None))
+            self.level5_cause.setItemText(0, QCoreApplication.translate("MainWindow", u"%s" %"cause", None))
+            self.level5_cause.setItemText(1, QCoreApplication.translate("MainWindow", u"%d" %(0), None))
+            self.level5_cause.setItemText(2, QCoreApplication.translate("MainWindow", u"%d" %(1), None))
+            self.level5_cause.setItemText(3, QCoreApplication.translate("MainWindow", u"%d" %(64), None))
+            self.level5_cause.setItemText(4, QCoreApplication.translate("MainWindow", u"%d" %(128), None))
+            self.level5_cause.setItemText(5, QCoreApplication.translate("MainWindow", u"%d" %(256), None))
+            
+
+        
 
     # retranslateUi
 #===================================================================================================================================================   
@@ -453,7 +622,7 @@ class Ui_MainWindow(QMainWindow, QObject):
         elif self.state == False:
             
             self._thread.stop_thread = True
-            
+            #self.ser.close()
             try:
                 if self.fname[0] != None:
 
@@ -479,7 +648,7 @@ class Ui_MainWindow(QMainWindow, QObject):
     def terminal_append(self, data):
         
         self.terminal_append_data = data
-        self.Setlpm_Terminal.appendPlainText(self.terminal_append_data)
+        self.GetTMU_Terminal.appendPlainText(self.terminal_append_data)
         
         try: 
             if self.fname[0] != None:
@@ -567,6 +736,21 @@ class Ui_MainWindow(QMainWindow, QObject):
                         self.com = self.avaliable_ports[i-1]
                         
                 self.ser = serial.Serial(self.com,115200, timeout=0.1)
+                
+                
+    
+    def thermal_table(self):
+        self.temp_dict = {
+            
+            #label까지         #path적용
+            95                 :'AT+SETLPM=0,0,0',
+            101                :'AT+SETLPM=0,1,64\r',
+            106                :'AT+SETLPM=0,1,1\r',
+            121                :'AT+SETLPM=1,1,256\r',
+            122                :'reboot\r'
+            
+        }
+    
                 
 
 if __name__ == "__main__":  

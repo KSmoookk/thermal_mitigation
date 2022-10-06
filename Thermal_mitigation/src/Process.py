@@ -23,7 +23,9 @@ class Process(threading.Thread):
 
 
             if self.stop_thread == True:
+                
                 self.data.start_after_stoped(True)
+                #self.ser.close()
                 return 0
             
             
