@@ -32,6 +32,7 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.setupUi(self)
 
         self.cmd_dict = {}
+        self.level_thr=[]
         
 #===================================================================================================================================================
 #===================================================================================================================================================
@@ -720,7 +721,7 @@ class Ui_MainWindow(QMainWindow, QObject):
                         print('%s' %self.avaliable_ports[i-1])
                         self.com = self.avaliable_ports[i-1]
                         
-                self.ser = serial.Serial(self.com,115200, timeout=1)
+                self.ser = serial.Serial(self.com,115200, timeout=0.5)
                 
     def level_cause_index(self):
         
@@ -759,40 +760,37 @@ class Ui_MainWindow(QMainWindow, QObject):
         
     def TPL(self):
         
-        self.temp_dict[0] = self.level1.text()
-        self.temp_dict[1] = self.level2.text()
-        self.temp_dict[2] = self.level3.text()
-        self.temp_dict[3] = self.level4.text()
-        self.temp_dict[4] = self.level5.text()
+
         self.level_cause_index()
-        
-        self.thermal_table_upstream(self.temp_dict, self.level_cause_demical)
-        self.thermal_table_downstream(self.temp_dict, self.level_cause_demical)
+        self.thermal_table_upstream(self.level_cause_demical)
+        self.thermal_table_downstream(self.level_cause_demical)
         
                
                 
 
-    def thermal_table_upstream(self, temp_dict, level_cause_demical):
+    def thermal_table_upstream(self, level_cause_demical):
+        
         self.thermal_policy_table_upstream = {
             
             #level 온도까지                          #command적용
-            '{}'.format(temp_dict[0])           :'AT+SETLPM=0,0,0',                                    #level1
-            '{}'.format(temp_dict[1])           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
-            '{}'.format(temp_dict[2])           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
-            '{}'.format(temp_dict[3])           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
-            '{}'.format(temp_dict[4])           :'reboot'                                              #level5
+            int(self.level1.text())           :'AT+SETLPM=0,0,0',                                    #level1
+            int(self.level2.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
+            int(self.level3.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
+            int(self.level4.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
+            int(self.level5.text())           :'reboot'                                              #level5
             
         }
-    
-    def thermal_table_downstream(self, temp_dict, level_cause_demical):
+        #print(self.thermal_policy_table_upstream[0])
+            
+    def thermal_table_downstream(self, level_cause_demical):
         self.thermal_policy_table_downstream = {
             
             #level 온도까지                          #command적용
-            '{}'.format(int(temp_dict[0])-2)           :'AT+SETLPM=0,0,0',                                    #level1
-            '{}'.format(int(temp_dict[1])-3)           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
-            '{}'.format(int(temp_dict[2])-2)           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
-            '{}'.format(int(temp_dict[3])-3)           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
-            '{}'.format(int(temp_dict[4]))           :'reboot'                                                #level5
+            int(self.level1.text())           :'AT+SETLPM=0,0,0',                                    #level1
+            int(self.level2.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
+            int(self.level3.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
+            int(self.level4.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
+            int(self.level5.text())           :'reboot'                                              #level5    
             
         }
         #print(self.temp_dict)

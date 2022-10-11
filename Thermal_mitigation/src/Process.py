@@ -19,12 +19,14 @@ class Process(threading.Thread):
         self.temp_list=[]
         #self.temp_list_index_cnt = 5/self.interval
         self.cnt = 0
+        self.pre_value = 0
+        self.pre_level = 0
         
 
     def run(self):
 
         while not self.stop_thread:
-            #print('hi read')
+            print('hi read')
             self.output = self.ser.read(64).decode()
 
 
@@ -50,196 +52,130 @@ class Process(threading.Thread):
                 
                 
             else:
-                #print('else output')
-                #self.pre_value = self.temp_value
-                #print("prevalue:",self.pre_value)
+
                 self.output = self.output.split()
                 self.temp_value = re.sub(r'[^0-9]','', self.output[1])
                 self.temp_value = int(self.temp_value)
+
                 self.data.gettmu_output(self.output[1], self.gettmu_command_time, self.duration)
                 
-                print(self.temp_value)
-                self.temp_list.append(self.temp_value)
-
+                self.check_current_tpl(self.temp_value)
                 self.gettmu_command
                 
 
 
     
-    def check_current_tpl(self, temp_value):
+    def check_current_tpl(self, temp_value: int):
         self.upstream_keys = self.thermal_table_upstream.keys()
         self.upstream_keys = list(self.upstream_keys)
+
         
         self.downstream_keys = self.thermal_table_downstream.keys()
         self.downstream_keys = list(self.thermal_table_downstream)
+
+        print("pre temp",self.pre_value)
         
 
-        if not pre_value or pre_value == temp_value:
-            pre_value = temp_value
+        if self.pre_value == 0:
+            self.pre_value = temp_value
+            print("not self.pre_value")
         
-        elif pre_value < temp_value:
+        elif self.pre_value < temp_value:
+            print("self.pre_value < temp_value -> self.upstream()")
+            self.pre_value = temp_value
             self.upstream(temp_value)
         
-        # elif pre_value > temp_value:
+        # elif self.pre_value > temp_value:
         #     self.downstream(temp_value)
+        
+        else:
+            #self.pre_value = temp_value
+            print("여기오면 안돼")
                 
+                
+    # def downstream(self, temp_value):
+    #     for threshold in range(len(self.upstream_keys)):
+
+    #         if self.upstream_keys[threshold] < temp_value and temp_value <= self.upstream_keys[threshold+1]:
+                
+    #             #print("self.thermal_table_upstream[%d] >= temp_value" %threshold)
+                
+    #             self.current_level = self.upstream_keys[threshold+1]
+    #             print("self.current_level", self.current_level)
+
+    #             if self.pre_level == 0:
+                    
+    #                 #print("not self.pre_level")
+                    
+    #                 self.pre_level = self.current_level 
+    #                 print("Pre_level", self.pre_level)
+                
+    #             elif self.pre_level < self.current_level:
+                    
+    #                 print("self.pre_level<self.current_level")
+                    
+    #                 self.cnt = self.cnt + 1
+    #                 print("self.cnt",self.cnt)
+    #                 self.pre_level = self.current_level 
+                    
+                    
+    #                 if self.cnt == self.duration:
+                        
+    #                     print("self.cnt == self.duration")
+                        
+    #                     change_level = str(self.thermal_table_upstream[self.current_level])
+    #                     print("ser.write")
+    #                     self.ser.write(change_level.encode())
+                        
+    #             else :
+    #                 print("self.cnt")
+    #                 self.cnt = 0
+
 
                 
     
     def upstream(self, temp_value):
         for threshold in range(len(self.upstream_keys)):
-            
-            if self.thermal_table_upstream[threshold] >= temp_value:
+
+            if self.upstream_keys[threshold] < temp_value and temp_value <= self.upstream_keys[threshold+1]:
                 
-                self.current_level = self.thermal_table_upstream[threshold]
+                #print("self.thermal_table_upstream[%d] >= temp_value" %threshold)
                 
-                if not self.pre_level:
+                self.current_level = self.upstream_keys[threshold+1]
+                print("self.current_level", self.current_level)
+
+                if self.pre_level == 0:
                     
-                    self.pre_level = self.thermal_table_upstream[threshold]
+                    #print("not self.pre_level")
+                    
+                    self.pre_level = self.current_level 
+                    print("Pre_level", self.pre_level)
                 
                 elif self.pre_level < self.current_level:
                     
-                    self.cnt += 1
-                    self.pre_level = self.thermal_table_upstream[threshold]
+                    print("self.pre_level<self.current_level")
+                    
+                    self.cnt = self.cnt + 1
+                    print("self.cnt",self.cnt)
+                    self.pre_level = self.current_level 
+                    
                     
                     if self.cnt == self.duration:
                         
-                        self.ser.write(self.thermal_table_upstream[threshold].encode())
-                
+                        print("self.cnt == self.duration")
+                        
+                        change_level = str(self.thermal_table_upstream[self.current_level])
+                        print("ser.write")
+                        self.ser.write(change_level.encode())
+                        
                 else :
+                    print("self.cnt")
                     self.cnt = 0
                         
-                        
-    # def downstream(self, temp_value):
-    #     for threshold in range(len(self.downstream_keys)):
-            
-    #         if self.thermal_table_upstream[threshold] >= temp_value:
-                
-    #             self.current_level = self.thermal_table_upstream[threshold]
-                
-    #             if not self.pre_level:
-                    
-    #                 self.pre_level = self.thermal_table_upstream[threshold]
-                
-    #             elif self.pre_level < self.current_level:
-                    
-    #                 self.cnt += 1
-    #                 self.pre_level = self.thermal_table_upstream[threshold]
-                    
-    #                 if self.cnt == self.duration:
-                        
-    #                     self.ser.write(self.thermal_table_upstream[threshold].encode())
-            
-            
-            
-            # elif self.thermal_table_upstream[threshold] < temp_value and temp_value <= self.thermal_table_upstream[threshold+1]:
-                
-            #     self.current_level = self.upstream_keys[threshold]
-                
-            # else 
-                
-             
-                
-    
-    
-    
+
                 
     def gettmu_command(self):
 
         self.gettmu_command_time = datetime.now().replace(microsecond=0)
         self.gettmu="AT+GETTMU=0\r"
         self.ser.write(self.gettmu.encode())
-        # temp_keys = self.temp_dict.keys()
-        # temp_keys = list(temp_keys)
-        
-    #     self.level1_key = temp_keys[0]
-    #     self.level2_key = temp_keys[1]
-    #     self.level3_key = temp_keys[2]
-    #     self.level4_key = temp_keys[3]
-    #     self.level5_key = temp_keys[4]
-        
-    # def upstream(self):
-        
-        
-        
-        
-        
-    # def downstream(self):
-        
-        
-
-
-        
-        
-        #print(temp_keys_level1[0])
-        # print(temp_keys)
-        # print(type(temp_keys))
-        
-        
-
-    # def temp_range_dict(self):
-        
-    #             self.temp_dict = {
-            
-    #         #label              #path
-    #         35                :'AT+SETLPM=1,1,256\r',
-    #         36                :'AT+SETLPM=0,1,128\r',
-    #         37                :'AT+SETLPM=0,1,1\r',
-    #         38                :'AT+SETLPM=1,1,64\r',
-    #         39                :'AT+SETLPM=0,1,16\r',
-    #         40                :'AT+SETLPM=1,1,32\r'
-    #     }
-                
-                
-                
-    # def auto_set_temp(self):
-        
-    #             if self.temp_value >= 40:
-    #                 if self.auto_set != self.temp_dict.get(40):
-    #                     self.auto_set = self.temp_dict.get(40)
-    #                     self.ser.write(self.auto_set.encode())
-
-    #                 else:
-                        
-    #                     self.gettmu_command()
-                        
-    #             elif self.temp_value >= 39 and self.temp_value < 40:
-    #                 if self.auto_set != self.temp_dict.get(39):
-    #                     self.auto_set = self.temp_dict.get(39)
-    #                     self.ser.write(self.auto_set.encode())
-    #                 else:
-                        
-    #                     self.gettmu_command()
-                        
-    #             elif self.temp_value >= 38 and self.temp_value < 39:
-    #                 if self.auto_set != self.temp_dict.get(38):
-    #                     self.auto_set = self.temp_dict.get(38)
-    #                     self.ser.write(self.auto_set.encode())
-    #                 else:
-    #                     self.gettmu_command()
-                        
-    #             elif self.temp_value >= 37 and self.temp_value < 38:
-    #                 if self.auto_set != self.temp_dict.get(37):
-    #                     self.auto_set = self.temp_dict.get(37)
-    #                     self.ser.write(self.auto_set.encode())
-    #                 else:
-                        
-    #                     self.gettmu_command()
-                        
-    #             elif self.temp_value >= 36 and self.temp_value < 37:
-    #                 if self.auto_set != self.temp_dict.get(36):
-    #                     self.auto_set = self.temp_dict.get(36)
-    #                     self.ser.write(self.auto_set.encode())
-    #                 else:
-                        
-    #                     self.gettmu_command()
-                        
-    #             elif self.temp_value >= 35 and self.temp_value < 36:
-    #                 if self.auto_set != self.temp_dict.get(35):
-    #                     self.auto_set = self.temp_dict.get(35)
-    #                     self.ser.write(self.auto_set.encode())
-    #                 else:
-                        
-    #                     self.gettmu_command()
-                
-                
