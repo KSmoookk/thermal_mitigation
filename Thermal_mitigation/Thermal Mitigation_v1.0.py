@@ -362,7 +362,7 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level_table_apply = QPushButton(self.centralwidget)
         self.level_table_apply.setGeometry(QRect(10, 510, 290, 30))
         self.level_table_apply.setStyleSheet(u"background-color: green;\n""color: rgb(0, 0, 0);\n""")
-        self.level_table_apply.clicked.connect(self.TPL)
+        self.level_table_apply.clicked.connect(self.level_cause_index)
     
 #==============================================================================================================================
         
@@ -597,7 +597,8 @@ class Ui_MainWindow(QMainWindow, QObject):
 
             self.AT_select.setEnabled(True)
             print('hi')
-            self._thread = src.Process(self.ser, self.data, self.interval_value, self.thermal_policy_table_upstream, self.thermal_policy_table_downstream)
+            self._thread = src.Process(self.ser, self.data, self.interval_value, 
+                                       self.thermal_max_list, self.thermal_min_list, self.thermal_level_dict)
             self._thread.start()
 
             if os.name == 'nt':
@@ -754,46 +755,53 @@ class Ui_MainWindow(QMainWindow, QObject):
         elif self.level5_cause.currentIndex() !=0:
             level5_cause = self.level5_cause.currentText()
             self.level_cause_demical[4] = level5_cause
+            
+        self.thermal_policy_level_table(self.level_cause_demical)
+        self.thermal_policy_max_table()
+        self.thermal_policy_min_table()
+        
         
             
         
         
-    def TPL(self):
+    # def TPL(self):
         
 
-        self.level_cause_index()
-        self.thermal_table_upstream(self.level_cause_demical)
-        self.thermal_table_downstream(self.level_cause_demical)
-        
-               
+    #     self.level_cause_index()
+        # self.thermal_policy_max_table(self.level_cause_demical)
+        # self.thermal_policy_min_table(self.level_cause_demical)
                 
 
-    def thermal_table_upstream(self, level_cause_demical):
+    def thermal_policy_max_table(self):
+        self.thermal_max_list = [int(self.level1.text()),int(self.level2.text()), int(self.level3.text()), 
+                                  int(self.level4.text()), int(self.level5.text())]
         
-        self.thermal_policy_table_upstream = {
+        print(self.thermal_max_list)
             
-            #level 온도까지                          #command적용
-            int(self.level1.text())           :'AT+SETLPM=0,0,0',                                    #level1
-            int(self.level2.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
-            int(self.level3.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
-            int(self.level4.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
-            int(self.level5.text())           :'reboot'                                              #level5
+
+            
+    def thermal_policy_min_table(self):
+        self.thermal_min_list = [int(self.level1.text())-2,int(self.level2.text())-3, int(self.level3.text())-2, 
+                                  int(self.level4.text())-3, int(self.level5.text())]
+        
+        print(self.thermal_min_list)
+        
+    def thermal_policy_level_table(self, level_cause_demical):
+        
+        
+        
+        self.thermal_level_dict = {
+            #level              #command적용
+            1                   :'AT+SETLPM=0,0,0',                                    #level1
+            2                   :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
+            3                   :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
+            4                   :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
+            5                   :'reboot'                                              #level5    
             
         }
-        #print(self.thermal_policy_table_upstream[0])
-            
-    def thermal_table_downstream(self, level_cause_demical):
-        self.thermal_policy_table_downstream = {
-            
-            #level 온도까지                          #command적용
-            int(self.level1.text())           :'AT+SETLPM=0,0,0',                                    #level1
-            int(self.level2.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[1]),    #level2
-            int(self.level3.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[2]),    #level3
-            int(self.level4.text())           :'AT+SETLPM=0,1,{}'.format(level_cause_demical[3]),    #level4
-            int(self.level5.text())           :'reboot'                                              #level5    
-            
-        }
-        #print(self.temp_dict)
+        
+        print(self.thermal_level_dict)
+
     
                 
 
