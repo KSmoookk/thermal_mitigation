@@ -19,6 +19,7 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.setupUi(self)
         self.cmd_dict = {}
         self.level_cause_decimal={}
+        self.level_temp=[]
         
 #===================================================================================================================================================
 #===================================================================================================================================================
@@ -190,6 +191,20 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.error_msg_box2.setStandardButtons(QMessageBox.Cancel)
         self.error_msg_box2.setDefaultButton(QMessageBox.Cancel)
         
+        self.error_msg_box3 = QMessageBox()
+        self.error_msg_box3.setWindowTitle("Error Message")
+        self.error_msg_box3.setIcon(QMessageBox.Information)
+        self.error_msg_box3.setText("Leave the temperature of each level at least 3 degrees.\n(level1<...<level5)")
+        self.error_msg_box3.setStandardButtons(QMessageBox.Cancel)
+        self.error_msg_box3.setDefaultButton(QMessageBox.Cancel)
+        
+        self.error_msg_box4 = QMessageBox()
+        self.error_msg_box4.setWindowTitle("Error Message")
+        self.error_msg_box4.setIcon(QMessageBox.Information)
+        self.error_msg_box4.setText("Complete the TPT and press Apply")
+        self.error_msg_box4.setStandardButtons(QMessageBox.Cancel)
+        self.error_msg_box4.setDefaultButton(QMessageBox.Cancel)
+        
 
         self.send_button = QPushButton(self.centralwidget)
         self.send_button.setObjectName(u"Send_button")
@@ -264,10 +279,6 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level1_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         self.level1_description.setText("Normal")
         self.level1_description.setReadOnly(True)
-        #self.level1_cause.currentIndexChanged.connect(self.cause_description)
-        # self.level1_btn = QPushButton(self.centralwidget)
-        # self.level1_btn.setGeometry(QRect(270, 150, 60, 30))
-        # self.level1_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         
         
         self.level2_layer = QLineEdit(self.centralwidget)
@@ -290,9 +301,6 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level2_description.setGeometry(QRect(160, 230, 140,30))
         self.level2_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         self.level2_description.setReadOnly(True)
-        # self.level2_btn = QPushButton(self.centralwidget)
-        # self.level2_btn.setGeometry(QRect(270, 240, 60, 30))
-        # self.level2_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         
         self.level3_layer = QLineEdit(self.centralwidget)
         self.level3_layer.setGeometry(QRect(10, 270, 120, 30))
@@ -314,9 +322,6 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level3_description.setGeometry(QRect(160, 310, 140,30))
         self.level3_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         self.level3_description.setReadOnly(True)
-        # self.level3_btn = QPushButton(self.centralwidget)
-        # self.level3_btn.setGeometry(QRect(270, 330, 60, 30))
-        # self.level3_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         
         self.level4_layer = QLineEdit(self.centralwidget)
         self.level4_layer.setGeometry(QRect(10, 350, 120, 30))
@@ -338,9 +343,6 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level4_description.setGeometry(QRect(160, 390, 140,30))
         self.level4_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         self.level4_description.setReadOnly(True)
-        # self.level4_btn = QPushButton(self.centralwidget)
-        # self.level4_btn.setGeometry(QRect(270, 420, 60, 30))
-        # self.level4_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         
         self.level5_layer = QLineEdit(self.centralwidget)
         self.level5_layer.setGeometry(QRect(10, 430, 120, 30))
@@ -350,7 +352,8 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level5 = QLineEdit(self.centralwidget)
         self.level5.setGeometry(QRect(10, 470, 60,30))
         self.level5.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
-        self.level5.setPlaceholderText('Temp')
+        self.level5.setText('200')
+        self.level5.setReadOnly(True)
         self.level5.setAlignment(Qt.AlignCenter)
         self.level5_cause = QComboBox(self.centralwidget)
         self.level5_cause.setDisabled(True)
@@ -364,9 +367,6 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.level5_description.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         self.level5_description.setText("Reboot")
         self.level5_description.setReadOnly(True)
-        # self.level5_btn = QPushButton(self.centralwidget)
-        # self.level5_btn.setGeometry(QRect(270, 510, 60, 30))
-        # self.level5_btn.setStyleSheet(u"background-color: rgb(255, 255, 255);\n""color: rgb(0, 0, 0);\n""")
         
         self.level_table_apply = QPushButton(self.centralwidget)
         self.level_table_apply.setGeometry(QRect(10, 510, 140, 30))
@@ -601,17 +601,23 @@ class Ui_MainWindow(QMainWindow, QObject):
         self.state = state
         
         try:
+            if len(self.level_text) == 5:
+        
+                try:
 
-            self.duration_value = self.duration.text()
-            self.duration_value = int(self.duration_value)
-            self.duration.setReadOnly(True)
+                    self.duration_value = self.duration.text()
+                    self.duration_value = int(self.duration_value)
+                    self.duration.setReadOnly(True)
 
-            self.start_thread()
+                    self.start_thread()
 
+                except:
+                    self.error_msg_box2.exec()
+                    self.TMU_button.setChecked(False)
+                
         except:
-            self.error_msg_box2.exec()
+            self.error_msg_box4.exec()
             self.TMU_button.setChecked(False)
-
    
                 
     def start_thread(self):
@@ -638,6 +644,7 @@ class Ui_MainWindow(QMainWindow, QObject):
             self.level_table_apply.setStyleSheet(u"color: black; background-color:red")
             self.threshold_default.setDisabled(True)
             self.threshold_default.setStyleSheet(u"color: black; background-color:red")
+            
             self._thread = src.Process(self.ser, self.data, self.duration_value, 
                                        self.thermal_level_dict, self.thermal_temp_dict)
             self._thread.start()
@@ -715,7 +722,7 @@ class Ui_MainWindow(QMainWindow, QObject):
             self.status.setText('Without log...')
             pass
                    
-
+#================================================================Logging 기능 및 상태 ===============================================================
     def create_log(self):
         
         nowtime = datetime.now()
@@ -752,7 +759,7 @@ class Ui_MainWindow(QMainWindow, QObject):
             
 
         
-
+#================================================================Serial Open==============================================================
             
     def serial_open(self):
 
@@ -830,25 +837,25 @@ class Ui_MainWindow(QMainWindow, QObject):
             self.level_cause_decimal[0] = level1_cause
             
         if self.level2_cause.currentIndex() == 0:
-            self.level_cause_decimal[1] = 0
+            self.level_cause_decimal[1] = 255
         elif self.level2_cause.currentIndex() !=0:
             level2_cause = self.level2_cause.currentText()
             self.level_cause_decimal[1] = level2_cause
 
         if self.level3_cause.currentIndex() == 0:
-            self.level_cause_decimal[2] = 0
+            self.level_cause_decimal[2] = 255
         elif self.level3_cause.currentIndex() !=0:
             level3_cause = self.level3_cause.currentText()
             self.level_cause_decimal[2] = level3_cause
             
         if self.level4_cause.currentIndex() == 0:
-            self.level_cause_decimal[3] = 0
+            self.level_cause_decimal[3] = 255
         elif self.level4_cause.currentIndex() !=0:
             level4_cause = self.level4_cause.currentText()
             self.level_cause_decimal[3] = level4_cause
             
         if self.level5_cause.currentIndex() == 0:
-            self.level_cause_decimal[4] = 0
+            self.level_cause_decimal[4] = 255
         elif self.level5_cause.currentIndex() !=0:
             level5_cause = self.level5_cause.currentText()
             self.level_cause_decimal[4] = level5_cause
@@ -870,19 +877,33 @@ class Ui_MainWindow(QMainWindow, QObject):
             
         }
         
-        self.thermal_temp_dict = {
-            #level              #[x,y] 온도 범위(x < level < y)
-            1                   : [0, int(self.level1.text())],
-            2                   : [int(self.level1.text())-2, int(self.level2.text())],
-            3                   : [int(self.level2.text())-3, int(self.level3.text())],
-            4                   : [int(self.level3.text())-2, int(self.level4.text())],
-            5                   : [int(self.level4.text())-3, int(self.level5.text())]
-            
-            
-        }
         
-        print(self.thermal_level_dict)
-        print(self.thermal_temp_dict)
+        try:
+            self.level_text = [int(self.level1.text()), int(self.level2.text()), int(self.level3.text()), int(self.level4.text()), int(self.level5.text())]
+            for level in range(len(self.level_text)-1):
+
+                if self.level_text[level] +3 <= self.level_text[level+1]:
+                
+                    self.level_temp.append(self.level_text[level])
+
+            self.level_temp.append(self.level_text[4])
+            
+            self.thermal_temp_dict = {
+                #level              #[x,y] 온도 범위(x < level < y)
+                1                   : [0, self.level_temp[0]],
+                2                   : [self.level_temp[0]-2, self.level_temp[1]],
+                3                   : [self.level_temp[1]-3, self.level_temp[2]],
+                4                   : [self.level_temp[2]-2, self.level_temp[3]],
+                5                   : [self.level_temp[3]-3, self.level_temp[4]]
+                
+                
+            }
+            
+            print(self.thermal_level_dict)
+            print(self.thermal_temp_dict)
+        
+        except:
+            self.error_msg_box3.exec()
         
 
 class HelpPicture(QDialog):
@@ -890,7 +911,7 @@ class HelpPicture(QDialog):
         super(HelpPicture, self).__init__()
 
         layout = QVBoxLayout()
-        filename = r'./thermal_explain.PNG'
+        filename = r'./src/image/Thermal_help_menu.PNG'
         image = QImage(filename)
         self.imageLabel = QLabel()
         self.imageLabel.setPixmap(QPixmap.fromImage(image))

@@ -22,40 +22,21 @@ class data_signal(QObject):
         self.setlpm_changed.emit(output_data)
 
         
-    def gettmu_output(self, output_data: str, gettmu_command_time, interval):
+    def gettmu_output(self, output_data: str, gettmu_command_time):
         
         command_time = gettmu_command_time
         command_time = str(command_time)
         
-        self.interval = interval
-        #print(output_data)
         self.received_data.append(output_data)
         self.received_data.append(command_time)
         self.join_data.append(self.received_data)
         self.received_data = []
 
-        
-        # if self.emit_loop == True:
-
-        #self.emit_loop = False
         self.emit_time = datetime.now().replace(microsecond=0)
         emit_data = '\t'.join(self.join_data[0])
         self.gettmu_changed.emit(emit_data)
         self.join_data = []
 
-        
-        # self.delay_time = gettmu_command_time - self.emit_time
-        # self.delay_time = self.delay_time.seconds
-
-        # if self.delay_time == self.interval:
-            
-        #     self.emit_loop = True
-        #     self.join_data = []
-        
-        # elif self.delay_time > self.interval:
-        #     self.emit_loop = True
-        #     self.join_data = []
-    
     def start_after_stoped(self, init):
         
         self.join_data = []
